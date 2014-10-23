@@ -20,8 +20,61 @@ Or install it yourself as:
     $ gem install active_model_serializers_matchers
 
 ## Usage
+### Simple `has_many` Association
+``` ruby
+class ListSerializer < ActiveModel::Serializer
+  has_many :items
+end
 
-TODO: Write usage instructions here
+RSpec.describe ListSerializer do
+  it { should have_many(:items) }
+end
+
+#=> should have many items
+```
+
+### Association Options
+#### Key
+use: `#as`
+``` ruby
+class ShoeRackSerializer < ActiveModel::Serializer
+  has_many :shoes, key: :kicks
+end
+
+RSpec.describe ShoeRackSerializer do
+  it { should have_many(:shoes).as(:kicks) }
+end
+
+#=> should have many shoes as "kicks"
+```
+#### Serializer
+use: `#serialized_with`
+``` ruby
+class ShoppingCartSerializer < ActiveModel::Serializer
+  has_many :items, serializer: ProductSerializer
+end
+
+RSpec.describe ShoppingCartSerializer do
+  it { should have_many(:items).serialized_with(ProductSerializer) }
+end
+
+#=> should have many items serialized with ProductSerializer
+```
+#### Chainable
+These can be chained in any order.
+``` ruby
+class MenuSerializer < ActiveModel::Serializer
+  has_many :entrees, key: dishes, serializer: FoodSerializer
+end
+
+RSpec.describe MenuSerializer do
+  it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
+  it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
+end
+
+#=> should have many entrees as "dishes" serialized with FoodSerializer
+#=> should have many entrees as "dishes" serialized with FoodSerializer
+```
 
 ## Contributing
 
