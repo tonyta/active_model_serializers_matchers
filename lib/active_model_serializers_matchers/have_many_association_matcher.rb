@@ -3,7 +3,9 @@ module ActiveModelSerializersMatchers
     attr_accessor :actual, :root, :key, :serializer, :key_check, :serializer_check
 
     def initialize(root)
-      @root = root
+      @root             = root
+      @key_check        = false
+      @serializer_check = false
     end
 
     def matches?(actual)
@@ -60,6 +62,7 @@ module ActiveModelSerializersMatchers
     end
 
     def association
+      return false if associations[root].nil?
       associations[root]
     end
 
@@ -76,9 +79,5 @@ module ActiveModelSerializersMatchers
       return true unless serializer_check
       association.options[:serializer].to_s == serializer.to_s
     end
-  end
-
-  def have_many(root)
-    HaveManyAssociationMatcher.new(root)
   end
 end

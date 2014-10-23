@@ -9,4 +9,8 @@ module ActiveModelSerializersMatchers
   included do
     subject { described_class }
   end
+
+  def have_many(association_root)
+    HaveManyAssociationMatcher.new(association_root)
+  end
 end
