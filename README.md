@@ -7,8 +7,7 @@ RSpec matchers for testing ActiveModel::Serializer
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'active_model_serializers_matchers', '0.0.1',
-  git: 'git://github.com/tonyta/active_model_serializers_matchers.git'
+gem 'active_model_serializers_matchers', '0.0.3'
 ```
 
 And then execute:
@@ -20,16 +19,19 @@ Or install it yourself as:
     $ gem install active_model_serializers_matchers
 
 ## Usage
-### Simple `has_many` Association
+### Simple `has_many` and `has_one` Associations
 ``` ruby
 class ListSerializer < ActiveModel::Serializer
+  has_one :title
   has_many :items
 end
 
 RSpec.describe ListSerializer do
+  it { should have_one(:title) }
   it { should have_many(:items) }
 end
 
+#=> should have one title
 #=> should have many items
 ```
 

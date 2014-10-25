@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ActiveModelSerializersMatchers::HaveManyAssociationMatcher do
+describe ActiveModelSerializersMatchers::HaveOneAssociationMatcher do
 
   subject { described_class.new(:foos) }
 
@@ -87,51 +87,51 @@ describe ActiveModelSerializersMatchers::HaveManyAssociationMatcher do
 
     context 'a serializer with one foo' do
       subject do
-        Class.new(ActiveModel::Serializer) { has_one :foo }
-      end
-      it { should_not have_many :foo  }
-      it { should_not have_many :foos }
-    end
-
-    context 'a serializer with many foos' do
-      subject do
         Class.new(ActiveModel::Serializer) { has_many :foos }
       end
-      it { should     have_many(:foos) }
-      it { should_not have_many(:bars) }
-      it { should_not have_many(:foos).as(:bars) }
-      it { should_not have_many(:foos).serialized_with(:baz) }
+      it { should_not have_one :foo  }
+      it { should_not have_one :foos }
     end
 
-    context 'a serializer with many foos as bars' do
+    context 'a serializer with one foo' do
       subject do
-        Class.new(ActiveModel::Serializer) { has_many :foos, key: :bars }
+        Class.new(ActiveModel::Serializer) { has_one :foo }
       end
-      it { should     have_many(:foos) }
-      it { should     have_many(:foos).as(:bars) }
-      it { should_not have_many(:foos).as(:baz) }
+      it { should     have_one(:foo) }
+      it { should_not have_one(:bar) }
+      it { should_not have_one(:foo).as(:bar) }
+      it { should_not have_one(:foo).serialized_with(:baz) }
     end
 
-    context 'a serializer with many foos serialized with baz' do
+    context 'a serializer with one foo as bar' do
       subject do
-        Class.new(ActiveModel::Serializer) { has_many :foos, serializer: :baz }
+        Class.new(ActiveModel::Serializer) { has_one :foo, key: :bar }
       end
-      it { should     have_many(:foos) }
-      it { should     have_many(:foos).serialized_with(:baz) }
-      it { should_not have_many(:foos).serialized_with(:bars) }
+      it { should     have_one(:foo) }
+      it { should     have_one(:foo).as(:bar) }
+      it { should_not have_one(:foo).as(:baz) }
     end
 
-    context 'a serializer with many foos as bars serialized with baz' do
+    context 'a serializer with one foo serialized with baz' do
       subject do
-        Class.new(ActiveModel::Serializer) { has_many :foos, key: :bars, serializer: :baz }
+        Class.new(ActiveModel::Serializer) { has_one :foo, serializer: :baz }
       end
-      it { should     have_many(:foos) }
-      it { should     have_many(:foos).as(:bars) }
-      it { should     have_many(:foos).serialized_with(:baz) }
-      it { should     have_many(:foos).as(:bars).serialized_with(:baz) }
-      it { should_not have_many(:fuus).as(:bars).serialized_with(:baz) }
-      it { should_not have_many(:foos).as(:bors).serialized_with(:baz) }
-      it { should_not have_many(:foos).as(:bars).serialized_with(:biz) }
+      it { should     have_one(:foo) }
+      it { should     have_one(:foo).serialized_with(:baz) }
+      it { should_not have_one(:foo).serialized_with(:bar) }
+    end
+
+    context 'a serializer with one foo as bar serialized with baz' do
+      subject do
+        Class.new(ActiveModel::Serializer) { has_one :foo, key: :bar, serializer: :baz }
+      end
+      it { should     have_one(:foo) }
+      it { should     have_one(:foo).as(:bar) }
+      it { should     have_one(:foo).serialized_with(:baz) }
+      it { should     have_one(:foo).as(:bar).serialized_with(:baz) }
+      it { should_not have_one(:fuu).as(:bar).serialized_with(:baz) }
+      it { should_not have_one(:foo).as(:bor).serialized_with(:baz) }
+      it { should_not have_one(:foo).as(:bar).serialized_with(:biz) }
     end
   end
 end
