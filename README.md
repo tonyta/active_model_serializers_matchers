@@ -7,8 +7,7 @@ RSpec matchers for testing ActiveModel::Serializer
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'active_model_serializers_matchers', '0.0.1',
-  git: 'git://github.com/tonyta/active_model_serializers_matchers.git'
+gem 'active_model_serializers_matchers', '0.0.3'
 ```
 
 And then execute:
