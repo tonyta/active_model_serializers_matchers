@@ -9,7 +9,7 @@ describe ActiveModelSerializersMatchers::HaveManyAssociationMatcher do
   describe '#matches?' do
     context 'when called with a class' do
       it 'sets @actual to that class' do
-        allow(subject).to receive(:association)
+        allow(subject).to receive(:root_association)
         subject.matches?(Object)
         expect(subject.actual).to be Object
       end
@@ -17,25 +17,24 @@ describe ActiveModelSerializersMatchers::HaveManyAssociationMatcher do
 
     context 'when called with an instance of class' do
       it 'sets @actual to the class of that instance' do
-        allow(subject).to receive(:association)
+        allow(subject).to receive(:root_association)
         subject.matches?(Object.new)
         expect(subject.actual).to be Object
       end
     end
 
     describe 'return value' do
-      context 'when association, match_root?, match_key?, and match_serializer? are all true' do
+      context 'when match_association?, match_key?, and match_serializer? are all true' do
         before do
-          expect(subject).to receive(:association      ) { true }
-          expect(subject).to receive(:match_root?      ) { true }
-          expect(subject).to receive(:match_key?       ) { true }
-          expect(subject).to receive(:match_serializer?) { true }
+          expect(subject).to receive(:match_association?) { true }
+          expect(subject).to receive(:match_key?        ) { true }
+          expect(subject).to receive(:match_serializer? ) { true }
         end
         specify { expect(subject.matches?(serializer)).to be true }
       end
 
-      context 'when any association, match_root?, match_key?, or match_serializer? is false' do
-        match_check_methods = [:association, :match_root?, :match_key?, :match_serializer?]
+      context 'when any match_association?, match_key?, or match_serializer? is false' do
+        match_check_methods = [:match_association?, :match_key?, :match_serializer?]
 
         match_check_methods.each do |false_method|
           before do
@@ -83,8 +82,16 @@ describe ActiveModelSerializersMatchers::HaveManyAssociationMatcher do
     end
   end
 
-  describe 'integration tests' do
+  describe 'feature tests' do
     include ActiveModelSerializersMatchers
+
+    context 'a serializer with one foo' do
+      subject do
+        Class.new(ActiveModel::Serializer) { has_one :foo }
+      end
+      it { should_not have_many :foo  }
+      it { should_not have_many :foos }
+    end
 
     context 'a serializer with many foos' do
       subject do

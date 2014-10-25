@@ -10,7 +10,7 @@ module ActiveModelSerializersMatchers
 
     def matches?(actual)
       @actual = actual.is_a?(Class) ? actual : actual.class
-      association and match_root? && match_key? && match_serializer?
+      match_association? && match_key? && match_serializer?
     end
 
     def as(key)
@@ -33,18 +33,18 @@ module ActiveModelSerializersMatchers
     end
 
     def failure_message
-      if association && match_root?
-        "expected #{actual} association options for #{root}: #{association.options} to include: #{expected_association}"
+      if match_association?
+        "expected #{actual} association options for #{root}: #{root_association.options} to include: #{expected_association}"
       else
-        "expected #{actual} associations: #{associations.keys} to include: #{root.inspect}"
+        "expected #{actual} associations: #{associations} to include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasMany)}"
       end
     end
 
     def failure_message_when_negated
-      if association && match_root?
-        "expected #{actual} associations: #{associations.keys} to not include: #{root.inspect}"
+      if match_association?
+        "expected #{actual} associations: #{associations} to not include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasMany)}"
       else
-        "expected #{actual} association options for #{root}: #{association.options} to not include: #{expected_options}"
+        "expected #{actual} association options for #{root}: #{root_association.options} to not include: #{expected_options}"
       end
     end
 
@@ -62,22 +62,26 @@ module ActiveModelSerializersMatchers
     end
 
     def association
-      return false if associations[root].nil?
       associations[root]
     end
 
-    def match_root?
-      association.options[:root] == root
+    def root_association
+      associations[root]
+    end
+
+    def match_association?
+      return false if root_association.nil?
+      root_association.superclass == ActiveModel::Serializer::Associations::HasMany
     end
 
     def match_key?
       return true unless key_check
-      association.options[:key] == key
+      root_association.options[:key] == key
     end
 
     def match_serializer?
       return true unless serializer_check
-      association.options[:serializer].to_s == serializer.to_s
+      root_association.options[:serializer].to_s == serializer.to_s
     end
   end
 end
