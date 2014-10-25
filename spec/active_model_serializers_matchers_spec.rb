@@ -11,4 +11,12 @@ describe ActiveModelSerializersMatchers do
       have_many(:association_root)
     end
   end
+
+  describe '#have_one' do
+    it 'instantiates a new HaveOneAssociationMatcher' do
+      expect(described_class::HaveOneAssociationMatcher)
+        .to receive(:new).with(:association_root)
+      have_one(:association_root)
+    end
+  end
 end

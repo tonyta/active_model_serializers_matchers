@@ -1,5 +1,5 @@
 module ActiveModelSerializersMatchers
-  class HaveManyAssociationMatcher
+  class HaveOneAssociationMatcher
     attr_accessor :actual, :root, :key, :serializer, :key_check, :serializer_check
 
     def initialize(root)
@@ -26,7 +26,7 @@ module ActiveModelSerializersMatchers
     end
 
     def description
-      msg = "have many #{root}"
+      msg = "have one #{root}"
       msg << " as \"#{key}\"" if key_check
       msg << " serialized with #{serializer}" if serializer_check
       msg
@@ -36,13 +36,13 @@ module ActiveModelSerializersMatchers
       if match_association?
         "expected #{actual} association options for #{root}: #{root_association.options} to include: #{expected_association}"
       else
-        "expected #{actual} associations: #{associations} to include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasMany)}"
+        "expected #{actual} associations: #{associations} to include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasOne)}"
       end
     end
 
     def failure_message_when_negated
       if match_association?
-        "expected #{actual} associations: #{associations} to not include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasMany)}"
+        "expected #{actual} associations: #{associations} to not include: {#{root.inspect}=>(subclass of ActiveModel::Serializer::Associations::HasOne)}"
       else
         "expected #{actual} association options for #{root}: #{root_association.options} to not include: #{expected_options}"
       end
@@ -67,7 +67,7 @@ module ActiveModelSerializersMatchers
 
     def match_association?
       return false if root_association.nil?
-      root_association.superclass == ActiveModel::Serializer::Associations::HasMany
+      root_association.superclass == ActiveModel::Serializer::Associations::HasOne
     end
 
     def match_key?
