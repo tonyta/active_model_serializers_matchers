@@ -141,7 +141,7 @@ end
 [travis]: https://travis-ci.org/tonyta/active_model_serializers_matchers
 
 [coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg?style=flat
-[coverage]: https://coveralls.io/r/tonyta/active_model_serializers_matchers?branch=objectify-association-matchers
+[coverage]: https://coveralls.io/r/tonyta/active_model_serializers_matchers
 
 [codeclimate_badge]: https://img.shields.io/codeclimate/github/tonyta/active_model_serializers_matchers.svg?style=flat
 [codeclimate]: https://codeclimate.com/github/tonyta/active_model_serializers_matchers
