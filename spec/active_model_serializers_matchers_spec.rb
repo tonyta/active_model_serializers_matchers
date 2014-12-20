@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ActiveModelSerializersMatchers do
 
-  include described_class
-
   describe '#have_many' do
     it 'returns a new AssociationMatcher of type :has_many' do
       expect(described_class::AssociationMatcher)

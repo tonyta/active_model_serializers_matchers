@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe ActiveModelSerializersMatchers::AssociationMatcher do
 
-  include ActiveModelSerializersMatchers
-
   context 'when given serializer that has_one :foo' do
     subject do
       Class.new(ActiveModel::Serializer) { has_one :foo }
