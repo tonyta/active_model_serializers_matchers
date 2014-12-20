@@ -102,7 +102,7 @@ module ActiveModelSerializersMatchers
       end
 
       def pass?
-        actual_key == key
+        actual_key.to_s == key.to_s
       end
 
       def fail?
@@ -142,15 +142,33 @@ module ActiveModelSerializersMatchers
       end
 
       def pass?
-        false
+        actual_serializer.to_s == serializer.to_s
       end
 
       def fail?
         !pass?
       end
 
+      def description
+        "serialized with #{ serializer }"
+      end
+
       def failure_message
-        "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have serializer #{ serializer } but instead has none"
+        "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have serializer #{ serializer } but instead #{ actual_serializer_string }"
+      end
+
+      private
+
+      def actual_serializer
+        matcher.root_association.options[:serializer]
+      end
+
+      def actual_serializer_string
+        if actual_serializer
+          "was #{ actual_serializer }"
+        else
+          "has none"
+        end
       end
     end
   end
