@@ -59,12 +59,6 @@ ListSerializer
   should have one :title
   should have many :items
   should have many :cats (FAILED - 1)
-
-Failures:
-
-  1) ListSerializer should have many :cats
-     Failure/Error: it { should have_many(:cats) }
-       expected ListSerializer to define a 'has_many :cats' association
 ```
 
 ### `:key` option
@@ -86,12 +80,6 @@ end
 ShoeRackSerializer
   should have many :shoes as :kicks
   should have many :shoes as :ones_and_twos (FAILED - 1)
-
-Failures:
-
-  1) ShoeRackSerializer should have many :shoes as :ones_and_twos
-     Failure/Error: it { should have_many(:shoes).as(:ones_and_twos) }
-       expected ShoeRackSerializer 'has_many :shoes' association to explicitly have key :ones_and_twos but instead was :kicks
 ```
 
 ### `:serializer` option
@@ -116,12 +104,6 @@ end
 ShoppingCartSerializer
   should have many :items serialized with ProductSerializer
   should have many :items serialized with SoupCanSerializer (FAILED - 1)
-
-Failures
-
-  1) ShoppingCartSerializer should have many :items serialized with SoupCanSerializer
-     Failure/Error: it { should have_many(:items).serialized_with(SoupCanSerializer) }
-       expected ShoppingCartSerializer 'has_many :items' association to explicitly have serializer SoupCanSerializer but instead was ProductSerializer
 ```
 
 ### Chaining multiple matchers
@@ -147,16 +129,6 @@ MenuSerializer
   should have many :entrees serialized with FoodSerializer as :dishes
   should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
   should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
-
-Failures:
-
-  1) MenuSerializer should have many :entrees serialized with FoodSerializer as :eats
-     Failure/Error: it { should have_many(:entrees).serialized_with(FoodSerializer).as(:eats) }
-       expected MenuSerializer 'has_many :entrees' association to explicitly have key :eats but instead was :dishes
-
-  2) MenuSerializer should have many :entrees serialized with MilkSerializer as :dishes
-     Failure/Error: it { should have_many(:entrees).serialized_with(MilkSerializer).as(:dishes) }
-       expected MenuSerializer 'has_many :entrees' association to explicitly have serializer MilkSerializer but instead was FoodSerializer
 ```
 
 ## Contributing
