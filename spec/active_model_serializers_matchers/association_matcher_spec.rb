@@ -2,6 +2,27 @@ require 'spec_helper'
 
 describe ActiveModelSerializersMatchers::AssociationMatcher do
 
+  describe 'negated expectations' do
+    let(:serializer) do
+      Class.new(ActiveModel::Serializer) { has_one :foo }
+    end
+
+    let(:error_class) { ActiveModelSerializersMatchers::NegatedUseNotSupportedError }
+    let(:error_message) { 'negated expectations are not supported by ActiveModelSerializersMatchers' }
+
+    it 'raises an error when expectation is techically true' do
+      expect {
+        expect(serializer).to_not have_one(:foo)
+      }.to raise_error(error_class, error_message)
+    end
+
+    it 'raises an error when expectation is techically false' do
+      expect {
+        expect(serializer).to_not have_one(:fuu)
+      }.to raise_error(error_class, error_message)
+    end
+  end
+
   context 'when given serializer that has_one :foo' do
     subject do
       Class.new(ActiveModel::Serializer) { has_one :foo }
