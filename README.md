@@ -53,12 +53,11 @@ RSpec.describe ListSerializer, :type => :serializer do
   it { should have_many(:items) }
   it { should have_many(:cats) }
 end
-```
-```
-ListSerializer
-  should have one :title
-  should have many :items
-  should have many :cats (FAILED - 1)
+
+# ListSerializer
+#   should have one :title
+#   should have many :items
+#   should have many :cats (FAILED - 1)
 ```
 
 ### key option
@@ -75,11 +74,10 @@ RSpec.describe ShoeRackSerializer, :type => :serializer do
   it { should have_many(:shoes).as(:kicks) }
   it { should have_many(:shoes).as(:ones_and_twos) }
 end
-```
-```
-ShoeRackSerializer
-  should have many :shoes as :kicks
-  should have many :shoes as :ones_and_twos (FAILED - 1)
+
+# ShoeRackSerializer
+#   should have many :shoes as :kicks
+#   should have many :shoes as :ones_and_twos (FAILED - 1)
 ```
 
 ### serializer option
@@ -99,11 +97,10 @@ RSpec.describe ShoppingCartSerializer, :type => :serializer do
   it { should have_many(:items).serialized_with(ProductSerializer) }
   it { should have_many(:items).serialized_with(SoupCanSerializer) }
 end
-```
-```
-ShoppingCartSerializer
-  should have many :items serialized with ProductSerializer
-  should have many :items serialized with SoupCanSerializer (FAILED - 1)
+
+# ShoppingCartSerializer
+#   should have many :items serialized with ProductSerializer
+#   should have many :items serialized with SoupCanSerializer (FAILED - 1)
 ```
 
 ### chaining multiple matchers
@@ -122,13 +119,12 @@ RSpec.describe MenuSerializer, :type => :serializer do
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
 end
-```
-```
-MenuSerializer
-  should have many :entrees as :dishes serialized with FoodSerializer
-  should have many :entrees serialized with FoodSerializer as :dishes
-  should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
-  should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
+
+# MenuSerializer
+#   should have many :entrees as :dishes serialized with FoodSerializer
+#   should have many :entrees serialized with FoodSerializer as :dishes
+#   should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
+#   should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
 ```
 
 ## Contributing
