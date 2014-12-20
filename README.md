@@ -2,6 +2,7 @@
 [![Gem Version][gem_version_badge]][rubygems]
 [![Travis CI][travis_badge]][travis]
 [![Coverage Status][coverage_badge]][coverage]
+[![Code Climate][codeclimate_badge]][codeclimate]
 ### RSpec matchers for ActiveModel::Serializer Associations
 
 **Note:** This gem requires `"active_model_serializers", "~> 0.8.0"`:
@@ -143,3 +144,6 @@ end
 
 [coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg?style=flat
 [coverage]: https://coveralls.io/r/tonyta/active_model_serializers_matchers?branch=objectify-association-matchers
+
+[codeclimate_badge]: https://img.shields.io/codeclimate/github/tonyta/active_model_serializers_matchers.svg?style=flat
+[codeclimate]: https://codeclimate.com/github/tonyta/active_model_serializers_matchers
