@@ -102,7 +102,7 @@ module ActiveModelSerializersMatchers
       end
 
       def pass?
-        matcher.root_association.options[:key] == key
+        actual_key == key
       end
 
       def fail?
@@ -114,7 +114,21 @@ module ActiveModelSerializersMatchers
       end
 
       def failure_message
-        "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have key #{ key.inspect } but instead has none"
+        "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have key #{ key.inspect } but instead #{ actual_key_string }"
+      end
+
+      private
+
+      def actual_key
+        matcher.root_association.options[:key]
+      end
+
+      def actual_key_string
+        if actual_key
+          "was #{ actual_key.inspect }"
+        else
+          'has none'
+        end
       end
     end
 

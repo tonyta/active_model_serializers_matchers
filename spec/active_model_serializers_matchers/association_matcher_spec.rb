@@ -92,7 +92,7 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
       it 'should fail a have_one :foo as :bor expectation' do
         expect {
           expect(subject).to have_one(:foo).as(:bor)
-        }.to fail_with("expected #{ subject } 'has_one :foo' association to explicitly have key :bor but instead has none")
+        }.to fail_with("expected #{ subject } 'has_one :foo' association to explicitly have key :bor but instead was :bar")
       end
     end
 
@@ -146,7 +146,7 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
       it 'should fail a have_many :foos as :bors expectation' do
         expect {
           expect(subject).to have_many(:foos).as(:bors)
-        }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have key :bors but instead has none")
+        }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have key :bors but instead was :bars")
       end
     end
 
