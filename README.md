@@ -6,7 +6,13 @@
 
 RSpec matchers for testing ActiveModel::Serializer
 
-## Installation
+**Note:** This gem requires `"active_model_serializers", "~> 0.8.0"`:
+- [v0.8.0](https://github.com/rails-api/active_model_serializers/tree/v0.8.0)
+- [v0.8.1](https://github.com/rails-api/active_model_serializers/tree/v0.8.1)
+- [v0.8.2](https://github.com/rails-api/active_model_serializers/tree/v0.8.2)
+- [v0.8.3](https://github.com/rails-api/active_model_serializers/tree/v0.8.3)
+
+### Installation
 
 Add this line to your application's Gemfile:
 
@@ -22,23 +28,28 @@ Or install it yourself as:
 
     $ gem install active_model_serializers_matchers
 
-## Configure RSpec
+### Configure RSpec
 ``` ruby
 RSpec.configure do |config|
-  config.include ActiveModelSerializersMatchers, type: :serializer
+  config.include ActiveModelSerializersMatchers, :type => :serializer
 end
 ```
 
 ## Usage
 
-### Simple `has_many` and `has_one` Associations
+### Associations
+
+#### `has_one` and `has_many` associations
+
+association matcher: `#have_one` and `#have_many`
+
 ``` ruby
 class ListSerializer < ActiveModel::Serializer
   has_one :title
   has_many :items
 end
 
-RSpec.describe ListSerializer, type: :serializer do
+RSpec.describe ListSerializer, :type => :serializer do
   subject { described_class }
   it { should have_one(:title) }
   it { should have_many(:items) }
@@ -58,15 +69,16 @@ Failures:
        expected ListSerializer to define a 'has_many :cats' association
 ```
 
-### Association Options
-#### Key
-use: `#as`
+### `:key` option
+
+option matcher: `#as`
+
 ``` ruby
 class ShoeRackSerializer < ActiveModel::Serializer
   has_many :shoes, key: :kicks
 end
 
-RSpec.describe ShoeRackSerializer, type: :serializer do
+RSpec.describe ShoeRackSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:shoes).as(:kicks) }
   it { should have_many(:shoes).as(:ones_and_twos) }
@@ -84,8 +96,10 @@ Failures:
        expected ShoeRackSerializer 'has_many :shoes' association to explicitly have key :ones_and_twos but instead was :kicks
 ```
 
-#### Serializer
-use: `#serialized_with`
+### `:serializer` option
+
+option matcher: `#serialized_with`
+
 ``` ruby
 class ProductSerializer < ActiveModel::Serializer; end
 class SoupCanSerializer < ActiveModel::Serializer; end
@@ -94,7 +108,7 @@ class ShoppingCartSerializer < ActiveModel::Serializer
   has_many :items, serializer: ProductSerializer
 end
 
-RSpec.describe ShoppingCartSerializer, type: :serializer do
+RSpec.describe ShoppingCartSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:items).serialized_with(ProductSerializer) }
   it { should have_many(:items).serialized_with(SoupCanSerializer) }
@@ -112,8 +126,10 @@ Failures
        expected ShoppingCartSerializer 'has_many :items' association to explicitly have serializer SoupCanSerializer but instead was ProductSerializer
 ```
 
-#### Chainable
-These can be chained in any order.
+### Chaining multiple matchers
+
+Multiple option matchers can be chained onto an association matcher in any order.
+
 ``` ruby
 class FoodSerializer < ActiveModel::Serializer; end
 
@@ -121,7 +137,7 @@ class MenuSerializer < ActiveModel::Serializer
   has_many :entrees, key: :dishes, serializer: FoodSerializer
 end
 
-RSpec.describe MenuSerializer, type: :serializer do
+RSpec.describe MenuSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
