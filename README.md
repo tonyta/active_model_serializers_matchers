@@ -124,8 +124,6 @@ end
 # MenuSerializer
 #   should have many :entrees as :dishes serialized with FoodSerializer
 #   should have many :entrees serialized with FoodSerializer as :dishes
-#   should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
-#   should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
 ```
 
 ## Contributing
