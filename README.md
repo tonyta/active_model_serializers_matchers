@@ -90,11 +90,11 @@ end
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-[gem_version_badge]: https://badge.fury.io/rb/active_model_serializers_matchers.svg
+[gem_version_badge]: http://img.shields.io/gem/v/active_model_serializers_matchers.svg?style=flat
 [rubygems]: http://rubygems.org/gems/active_model_serializers_matchers
 
-[travis_badge]: https://api.travis-ci.org/tonyta/active_model_serializers_matchers.svg
+[travis_badge]: http://img.shields.io/travis/tonyta/active_model_serializers_matchers.svg?style=flat
 [travis]: https://travis-ci.org/tonyta/active_model_serializers_matchers
 
-[coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg
+[coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg?style=flat
 [coverage]: https://coveralls.io/r/tonyta/active_model_serializers_matchers?branch=objectify-association-matchers
