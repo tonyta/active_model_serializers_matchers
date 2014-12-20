@@ -37,7 +37,7 @@ end
 
 ### Associations
 
-#### `has_one` and `has_many` associations
+#### has_one and has_many associations
 
 association matcher: `#have_one` and `#have_many`
 
@@ -61,7 +61,7 @@ ListSerializer
   should have many :cats (FAILED - 1)
 ```
 
-### `:key` option
+### key option
 
 option matcher: `#as`
 
@@ -82,7 +82,7 @@ ShoeRackSerializer
   should have many :shoes as :ones_and_twos (FAILED - 1)
 ```
 
-### `:serializer` option
+### serializer option
 
 option matcher: `#serialized_with`
 
@@ -106,7 +106,7 @@ ShoppingCartSerializer
   should have many :items serialized with SoupCanSerializer (FAILED - 1)
 ```
 
-### Chaining multiple matchers
+### chaining multiple matchers
 
 Multiple option matchers can be chained onto an association matcher in any order.
 
