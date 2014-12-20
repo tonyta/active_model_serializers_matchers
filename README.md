@@ -60,7 +60,7 @@ end
 #   should have many :cats (FAILED - 1)
 ```
 
-### key option
+#### key option
 
 option matcher: `#as`
 
@@ -80,7 +80,7 @@ end
 #   should have many :shoes as :ones_and_twos (FAILED - 1)
 ```
 
-### serializer option
+#### serializer option
 
 option matcher: `#serialized_with`
 
@@ -103,7 +103,7 @@ end
 #   should have many :items serialized with SoupCanSerializer (FAILED - 1)
 ```
 
-### chaining multiple matchers
+#### chaining multiple matchers
 
 Multiple option matchers can be chained onto an association matcher in any order.
 
