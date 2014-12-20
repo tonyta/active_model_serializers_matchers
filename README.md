@@ -1,12 +1,16 @@
 # ActiveModelSerializersMatchers
-
 [![Gem Version][gem_version_badge]][rubygems]
 [![Travis CI][travis_badge]][travis]
 [![Coverage Status][coverage_badge]][coverage]
+### RSpec matchers for ActiveModel::Serializer Associations
 
-RSpec matchers for testing ActiveModel::Serializer
+**Note:** This gem requires `"active_model_serializers", "~> 0.8.0"`:
+- [v0.8.0](https://github.com/rails-api/active_model_serializers/tree/v0.8.0)
+- [v0.8.1](https://github.com/rails-api/active_model_serializers/tree/v0.8.1)
+- [v0.8.2](https://github.com/rails-api/active_model_serializers/tree/v0.8.2)
+- [v0.8.3](https://github.com/rails-api/active_model_serializers/tree/v0.8.3)
 
-## Installation
+### Installation
 
 Add this line to your application's Gemfile:
 
@@ -22,70 +26,64 @@ Or install it yourself as:
 
     $ gem install active_model_serializers_matchers
 
-## Configure RSpec
+### Configure RSpec
 ``` ruby
 RSpec.configure do |config|
-  config.include ActiveModelSerializersMatchers, type: :serializer
+  config.include ActiveModelSerializersMatchers, :type => :serializer
 end
 ```
 
 ## Usage
 
-### Simple `has_many` and `has_one` Associations
+### Associations
+
+#### has_one and has_many associations
+
+association matcher: `#have_one` and `#have_many`
+
 ``` ruby
 class ListSerializer < ActiveModel::Serializer
   has_one :title
   has_many :items
 end
 
-RSpec.describe ListSerializer, type: :serializer do
+RSpec.describe ListSerializer, :type => :serializer do
   subject { described_class }
   it { should have_one(:title) }
   it { should have_many(:items) }
   it { should have_many(:cats) }
 end
-```
-```
-ListSerializer
-  should have one :title
-  should have many :items
-  should have many :cats (FAILED - 1)
 
-Failures:
-
-  1) ListSerializer should have many :cats
-     Failure/Error: it { should have_many(:cats) }
-       expected ListSerializer to define a 'has_many :cats' association
+# ListSerializer
+#   should have one :title
+#   should have many :items
+#   should have many :cats (FAILED - 1)
 ```
 
-### Association Options
-#### Key
-use: `#as`
+#### key option
+
+option matcher: `#as`
+
 ``` ruby
 class ShoeRackSerializer < ActiveModel::Serializer
   has_many :shoes, key: :kicks
 end
 
-RSpec.describe ShoeRackSerializer, type: :serializer do
+RSpec.describe ShoeRackSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:shoes).as(:kicks) }
   it { should have_many(:shoes).as(:ones_and_twos) }
 end
-```
-```
-ShoeRackSerializer
-  should have many :shoes as :kicks
-  should have many :shoes as :ones_and_twos (FAILED - 1)
 
-Failures:
-
-  1) ShoeRackSerializer should have many :shoes as :ones_and_twos
-     Failure/Error: it { should have_many(:shoes).as(:ones_and_twos) }
-       expected ShoeRackSerializer 'has_many :shoes' association to explicitly have key :ones_and_twos but instead was :kicks
+# ShoeRackSerializer
+#   should have many :shoes as :kicks
+#   should have many :shoes as :ones_and_twos (FAILED - 1)
 ```
 
-#### Serializer
-use: `#serialized_with`
+#### serializer option
+
+option matcher: `#serialized_with`
+
 ``` ruby
 class ProductSerializer < ActiveModel::Serializer; end
 class SoupCanSerializer < ActiveModel::Serializer; end
@@ -94,26 +92,21 @@ class ShoppingCartSerializer < ActiveModel::Serializer
   has_many :items, serializer: ProductSerializer
 end
 
-RSpec.describe ShoppingCartSerializer, type: :serializer do
+RSpec.describe ShoppingCartSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:items).serialized_with(ProductSerializer) }
   it { should have_many(:items).serialized_with(SoupCanSerializer) }
 end
-```
-```
-ShoppingCartSerializer
-  should have many :items serialized with ProductSerializer
-  should have many :items serialized with SoupCanSerializer (FAILED - 1)
 
-Failures
-
-  1) ShoppingCartSerializer should have many :items serialized with SoupCanSerializer
-     Failure/Error: it { should have_many(:items).serialized_with(SoupCanSerializer) }
-       expected ShoppingCartSerializer 'has_many :items' association to explicitly have serializer SoupCanSerializer but instead was ProductSerializer
+# ShoppingCartSerializer
+#   should have many :items serialized with ProductSerializer
+#   should have many :items serialized with SoupCanSerializer (FAILED - 1)
 ```
 
-#### Chainable
-These can be chained in any order.
+#### chaining multiple matchers
+
+Multiple option matchers can be chained onto an association matcher in any order.
+
 ``` ruby
 class FoodSerializer < ActiveModel::Serializer; end
 
@@ -121,28 +114,17 @@ class MenuSerializer < ActiveModel::Serializer
   has_many :entrees, key: :dishes, serializer: FoodSerializer
 end
 
-RSpec.describe MenuSerializer, type: :serializer do
+RSpec.describe MenuSerializer, :type => :serializer do
   subject { described_class }
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
 end
-```
-```
-MenuSerializer
-  should have many :entrees as :dishes serialized with FoodSerializer
-  should have many :entrees serialized with FoodSerializer as :dishes
-  should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
-  should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
 
-Failures:
-
-  1) MenuSerializer should have many :entrees serialized with FoodSerializer as :eats
-     Failure/Error: it { should have_many(:entrees).serialized_with(FoodSerializer).as(:eats) }
-       expected MenuSerializer 'has_many :entrees' association to explicitly have key :eats but instead was :dishes
-
-  2) MenuSerializer should have many :entrees serialized with MilkSerializer as :dishes
-     Failure/Error: it { should have_many(:entrees).serialized_with(MilkSerializer).as(:dishes) }
-       expected MenuSerializer 'has_many :entrees' association to explicitly have serializer MilkSerializer but instead was FoodSerializer
+# MenuSerializer
+#   should have many :entrees as :dishes serialized with FoodSerializer
+#   should have many :entrees serialized with FoodSerializer as :dishes
+#   should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
+#   should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
 ```
 
 ## Contributing
