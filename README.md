@@ -3,7 +3,7 @@
 [![Travis CI][travis_badge]][travis]
 [![Coverage Status][coverage_badge]][coverage]
 [![Code Climate][codeclimate_badge]][codeclimate]
-### RSpec matchers for ActiveModel::Serializer Associations
+### RSpec Matchers for ActiveModel::Serializer Associations
 
 **Note:** This gem requires `"active_model_serializers", "~> 0.8.0"`:
 - [v0.8.0](https://github.com/rails-api/active_model_serializers/tree/v0.8.0)

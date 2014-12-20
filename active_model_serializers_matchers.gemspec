@@ -1,4 +1,4 @@
-# coding: utf-8
+# encoding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'active_model_serializers_matchers/version'
@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = ActiveModelSerializersMatchers::VERSION
   spec.authors       = ["Tony Ta"]
   spec.email         = ["tonyta.tt@gmail.com"]
-  spec.summary       = "RSpec matchers for testing ActiveModel::Serializer"
-  spec.description   = "These matchers will allow you to test associations between serializers."
+  spec.description   = "RSpec Matchers for ActiveModel::Serializer Associations"
+  spec.summary       = "These matchers will allow you to test associations between serializers."
   spec.homepage      = ""
   spec.license       = "MIT"
 
