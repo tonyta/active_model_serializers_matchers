@@ -15,6 +15,10 @@ module ActiveModelSerializersMatchers
       checks.all?(&:pass?)
     end
 
+    def does_not_match?(actual)
+      raise NegatedUseNotSupportedError
+    end
+
     def description
       checks.map(&:description).join(' ')
     end
