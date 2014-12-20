@@ -1,10 +1,8 @@
 # ActiveModelSerializersMatchers
-
 [![Gem Version][gem_version_badge]][rubygems]
 [![Travis CI][travis_badge]][travis]
 [![Coverage Status][coverage_badge]][coverage]
-
-RSpec matchers for testing ActiveModel::Serializer
+### RSpec matchers for ActiveModel::Serializer Associations
 
 **Note:** This gem requires `"active_model_serializers", "~> 0.8.0"`:
 - [v0.8.0](https://github.com/rails-api/active_model_serializers/tree/v0.8.0)
