@@ -32,6 +32,11 @@ module ActiveModelSerializersMatchers
       self
     end
 
+    def serialized_with(serializer)
+      checks << SerializerCheck.new(self, serializer)
+      self
+    end
+
     private
 
     def associations
@@ -106,6 +111,28 @@ module ActiveModelSerializersMatchers
 
       def failure_message
         "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have key #{ key.inspect } but instead has none"
+      end
+    end
+
+    class SerializerCheck
+
+      attr_reader :matcher, :serializer
+
+      def initialize(matcher, serializer)
+        @matcher = matcher
+        @serializer = serializer
+      end
+
+      def pass?
+        false
+      end
+
+      def fail?
+        !pass?
+      end
+
+      def failure_message
+        "expected #{ matcher.actual } '#{ matcher.type } #{ matcher.root.inspect }' association to explicitly have serializer #{ serializer } but instead has none"
       end
     end
   end

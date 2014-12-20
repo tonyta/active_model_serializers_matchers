@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+class FooSerializer
+end
+
 describe ActiveModelSerializersMatchers::AssociationMatcher do
 
   include ActiveModelSerializersMatchers
@@ -36,6 +39,14 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
         }.to fail_with("expected #{ subject } 'has_one :foo' association to explicitly have key :bar but instead has none")
       end
     end
+
+    describe 'serializer expectation' do
+      it 'should fail a have_one :foo serialized with FooSerializer expectation' do
+        expect {
+          expect(subject).to have_one(:foo).serialized_with(FooSerializer)
+        }.to fail_with("expected #{ subject } 'has_one :foo' association to explicitly have serializer FooSerializer but instead has none")
+      end
+    end
   end
 
   context 'when given serializer that has_many :foos' do
@@ -68,6 +79,14 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
         expect {
           expect(subject).to have_many(:foos).as(:bars)
         }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have key :bars but instead has none")
+      end
+    end
+
+    describe 'serializer expectation' do
+      it 'should fail a have_many :foos serialized with FooSerializer expectation' do
+        expect {
+          expect(subject).to have_many(:foos).serialized_with(FooSerializer)
+        }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have serializer FooSerializer but instead has none")
       end
     end
   end
