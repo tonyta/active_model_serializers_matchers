@@ -4,7 +4,7 @@ module ActiveModelSerializersMatchers
     attr_reader :root, :type, :checks
     attr_reader :actual
 
-    def initialize(root:, type:)
+    def initialize(root, type)
       @root = root
       @type = type
       @checks = [AssociationCheck.new(self, type)]
