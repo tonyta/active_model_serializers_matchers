@@ -22,7 +22,15 @@ Or install it yourself as:
 
     $ gem install active_model_serializers_matchers
 
+## Configure RSpec
+``` ruby
+RSpec.configure do |config|
+  config.include ActiveModelSerializersMatchers, type: :serializer
+end
+```
+
 ## Usage
+
 ### Simple `has_many` and `has_one` Associations
 ``` ruby
 class ListSerializer < ActiveModel::Serializer
@@ -30,13 +38,24 @@ class ListSerializer < ActiveModel::Serializer
   has_many :items
 end
 
-RSpec.describe ListSerializer do
+RSpec.describe ListSerializer, type: :serializer do
+  subject { described_class }
   it { should have_one(:title) }
   it { should have_many(:items) }
+  it { should have_many(:cats) }
 end
+```
+```
+ListSerializer
+  should have one :title
+  should have many :items
+  should have many :cats (FAILED - 1)
 
-#=> should have one title
-#=> should have many items
+Failures:
+
+  1) ListSerializer should have many :cats
+     Failure/Error: it { should have_many(:cats) }
+       expected ListSerializer to define a 'has_many :cats' association
 ```
 
 ### Association Options
@@ -47,39 +66,83 @@ class ShoeRackSerializer < ActiveModel::Serializer
   has_many :shoes, key: :kicks
 end
 
-RSpec.describe ShoeRackSerializer do
+RSpec.describe ShoeRackSerializer, type: :serializer do
+  subject { described_class }
   it { should have_many(:shoes).as(:kicks) }
+  it { should have_many(:shoes).as(:ones_and_twos) }
 end
-
-#=> should have many shoes as "kicks"
 ```
+```
+ShoeRackSerializer
+  should have many :shoes as :kicks
+  should have many :shoes as :ones_and_twos (FAILED - 1)
+
+Failures:
+
+  1) ShoeRackSerializer should have many :shoes as :ones_and_twos
+     Failure/Error: it { should have_many(:shoes).as(:ones_and_twos) }
+       expected ShoeRackSerializer 'has_many :shoes' association to explicitly have key :ones_and_twos but instead was :kicks
+```
+
 #### Serializer
 use: `#serialized_with`
 ``` ruby
+class ProductSerializer < ActiveModel::Serializer; end
+class SoupCanSerializer < ActiveModel::Serializer; end
+
 class ShoppingCartSerializer < ActiveModel::Serializer
   has_many :items, serializer: ProductSerializer
 end
 
-RSpec.describe ShoppingCartSerializer do
+RSpec.describe ShoppingCartSerializer, type: :serializer do
+  subject { described_class }
   it { should have_many(:items).serialized_with(ProductSerializer) }
+  it { should have_many(:items).serialized_with(SoupCanSerializer) }
 end
-
-#=> should have many items serialized with ProductSerializer
 ```
+```
+ShoppingCartSerializer
+  should have many :items serialized with ProductSerializer
+  should have many :items serialized with SoupCanSerializer (FAILED - 1)
+
+Failures
+
+  1) ShoppingCartSerializer should have many :items serialized with SoupCanSerializer
+     Failure/Error: it { should have_many(:items).serialized_with(SoupCanSerializer) }
+       expected ShoppingCartSerializer 'has_many :items' association to explicitly have serializer SoupCanSerializer but instead was ProductSerializer
+```
+
 #### Chainable
 These can be chained in any order.
 ``` ruby
+class FoodSerializer < ActiveModel::Serializer; end
+
 class MenuSerializer < ActiveModel::Serializer
-  has_many :entrees, key: dishes, serializer: FoodSerializer
+  has_many :entrees, key: :dishes, serializer: FoodSerializer
 end
 
-RSpec.describe MenuSerializer do
+RSpec.describe MenuSerializer, type: :serializer do
+  subject { described_class }
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
 end
+```
+```
+MenuSerializer
+  should have many :entrees as :dishes serialized with FoodSerializer
+  should have many :entrees serialized with FoodSerializer as :dishes
+  should have many :entrees serialized with FoodSerializer as :eats (FAILED - 1)
+  should have many :entrees serialized with MilkSerializer as :dishes (FAILED - 2)
 
-#=> should have many entrees as "dishes" serialized with FoodSerializer
-#=> should have many entrees as "dishes" serialized with FoodSerializer
+Failures:
+
+  1) MenuSerializer should have many :entrees serialized with FoodSerializer as :eats
+     Failure/Error: it { should have_many(:entrees).serialized_with(FoodSerializer).as(:eats) }
+       expected MenuSerializer 'has_many :entrees' association to explicitly have key :eats but instead was :dishes
+
+  2) MenuSerializer should have many :entrees serialized with MilkSerializer as :dishes
+     Failure/Error: it { should have_many(:entrees).serialized_with(MilkSerializer).as(:dishes) }
+       expected MenuSerializer 'has_many :entrees' association to explicitly have serializer MilkSerializer but instead was FoodSerializer
 ```
 
 ## Contributing
@@ -90,11 +153,11 @@ end
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create a new Pull Request
 
-[gem_version_badge]: https://badge.fury.io/rb/active_model_serializers_matchers.svg
+[gem_version_badge]: http://img.shields.io/gem/v/active_model_serializers_matchers.svg?style=flat
 [rubygems]: http://rubygems.org/gems/active_model_serializers_matchers
 
-[travis_badge]: https://api.travis-ci.org/tonyta/active_model_serializers_matchers.svg
+[travis_badge]: http://img.shields.io/travis/tonyta/active_model_serializers_matchers.svg?style=flat
 [travis]: https://travis-ci.org/tonyta/active_model_serializers_matchers
 
-[coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg
+[coverage_badge]: https://img.shields.io/coveralls/tonyta/active_model_serializers_matchers.svg?style=flat
 [coverage]: https://coveralls.io/r/tonyta/active_model_serializers_matchers?branch=objectify-association-matchers
