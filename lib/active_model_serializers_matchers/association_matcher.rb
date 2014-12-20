@@ -102,11 +102,15 @@ module ActiveModelSerializersMatchers
       end
 
       def pass?
-        false
+        matcher.root_association.options[:key] == key
       end
 
       def fail?
         !pass?
+      end
+
+      def description
+        "as #{ key.inspect }"
       end
 
       def failure_message
