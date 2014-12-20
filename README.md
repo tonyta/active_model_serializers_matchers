@@ -16,7 +16,7 @@
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'active_model_serializers_matchers', '0.0.3'
+gem 'active_model_serializers_matchers', '0.2.0'
 ```
 
 And then execute:
