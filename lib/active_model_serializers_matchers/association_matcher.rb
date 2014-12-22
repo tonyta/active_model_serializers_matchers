@@ -39,6 +39,11 @@ module ActiveModelSerializersMatchers
       self
     end
 
+    def with_embed_key(embed_key)
+      checks << EmbedKeyCheck.new(self, embed_key)
+      self
+    end
+
     private
 
     def associations
