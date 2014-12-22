@@ -120,6 +120,14 @@ shared_examples 'it has_many :foos and no serializer' do
   end
 end
 
+shared_examples 'it has_many :foos and no embed_key' do
+  it 'should fail a have_many :foos with_embed_key :foo_external_id expectation' do
+    expect {
+      expect(subject).to have_many(:foos).with_embed_key(:foo_external_id)
+    }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have embed key :foo_external_id but instead has none")
+  end
+end
+
 shared_examples 'it has_many :foos with key :bars' do
   it 'should pass a have_many :foos as :bars expectation' do
     expectation = have_many(:foos).as(:bars)
@@ -145,5 +153,19 @@ shared_examples 'it has_many :foos with serializer FooSerializer' do
     expect {
       expect(subject).to have_many(:foos).serialized_with(BarSerializer)
     }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have serializer BarSerializer but instead was FooSerializer")
+  end
+end
+
+shared_examples 'it has_many :foos with embed_key :foo_external_id' do
+  it 'should pass a have_many :foos with embed key :foo_external_id' do
+    expectation = have_many(:foos).with_embed_key(:foo_external_id)
+    expect(subject).to expectation
+    expect(expectation.description).to eq('have many :foos with embed key :foo_external_id')
+  end
+
+  it 'should fail a have_many :foos with embed key :bar_external_id expectation' do
+    expect {
+      expect(subject).to have_many(:foos).with_embed_key(:bar_external_id)
+    }.to fail_with("expected #{ subject } 'has_many :foos' association to explicitly have embed key :bar_external_id but instead was :foo_external_id")
   end
 end

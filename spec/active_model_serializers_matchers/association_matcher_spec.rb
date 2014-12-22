@@ -137,6 +137,7 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
     it_behaves_like 'it has_many :foos'
     it_behaves_like 'it has_many :foos and no key'
     it_behaves_like 'it has_many :foos and no serializer'
+    it_behaves_like 'it has_many :foos and no embed_key'
   end
 
   context 'when given serializer that has_many :foos, key: :bars' do
@@ -145,6 +146,7 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
     end
     it_behaves_like 'it has_many :foos'
     it_behaves_like 'it has_many :foos and no serializer'
+    it_behaves_like 'it has_many :foos and no embed_key'
     it_behaves_like 'it has_many :foos with key :bars'
   end
 
@@ -154,16 +156,18 @@ describe ActiveModelSerializersMatchers::AssociationMatcher do
     end
     it_behaves_like 'it has_many :foos'
     it_behaves_like 'it has_many :foos and no key'
+    it_behaves_like 'it has_many :foos and no embed_key'
     it_behaves_like 'it has_many :foos with serializer FooSerializer'
   end
 
-  context 'when given serializer that has_many :foos, key: :bars, serializer: FooSerializer' do
+  context 'when given serializer that has_many :foos, embed_key: FooSerializer' do
     subject do
-      Class.new(ActiveModel::Serializer) { has_many :foos, key: :bars, serializer: FooSerializer }
+      Class.new(ActiveModel::Serializer) { has_many :foos, embed_key: :foo_external_id }
     end
     it_behaves_like 'it has_many :foos'
-    it_behaves_like 'it has_many :foos with key :bars'
-    it_behaves_like 'it has_many :foos with serializer FooSerializer'
+    it_behaves_like 'it has_many :foos and no key'
+    it_behaves_like 'it has_many :foos and no serializer'
+    it_behaves_like 'it has_many :foos with embed_key :foo_external_id'
   end
 
   context 'when given serializer that has_many :foos, key: :bars, serializer: FooSerializer' do
