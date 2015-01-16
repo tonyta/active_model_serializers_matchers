@@ -30,7 +30,7 @@ Or install it yourself as:
 ### Configure RSpec
 ``` ruby
 RSpec.configure do |config|
-  config.include ActiveModelSerializersMatchers, :type => :serializer
+  config.include ActiveModelSerializersMatchers, file_path: /spec\/serializers/
 end
 ```
 
@@ -48,8 +48,7 @@ class ListSerializer < ActiveModel::Serializer
   has_many :items
 end
 
-RSpec.describe ListSerializer, :type => :serializer do
-  subject { described_class }
+RSpec.describe ListSerializer do
   it { should have_one(:title) }
   it { should have_many(:items) }
   it { should have_many(:cats) }
@@ -70,8 +69,7 @@ class ShoeRackSerializer < ActiveModel::Serializer
   has_many :shoes, key: :kicks
 end
 
-RSpec.describe ShoeRackSerializer, :type => :serializer do
-  subject { described_class }
+RSpec.describe ShoeRackSerializer do
   it { should have_many(:shoes).as(:kicks) }
   it { should have_many(:shoes).as(:ones_and_twos) }
 end
@@ -93,8 +91,7 @@ class ShoppingCartSerializer < ActiveModel::Serializer
   has_many :items, serializer: ProductSerializer
 end
 
-RSpec.describe ShoppingCartSerializer, :type => :serializer do
-  subject { described_class }
+RSpec.describe ShoppingCartSerializer, do
   it { should have_many(:items).serialized_with(ProductSerializer) }
   it { should have_many(:items).serialized_with(SoupCanSerializer) }
 end
@@ -115,8 +112,7 @@ class MenuSerializer < ActiveModel::Serializer
   has_many :entrees, key: :dishes, serializer: FoodSerializer
 end
 
-RSpec.describe MenuSerializer, :type => :serializer do
-  subject { described_class }
+RSpec.describe MenuSerializer do
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
 end
