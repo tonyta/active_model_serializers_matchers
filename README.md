@@ -49,7 +49,6 @@ class ListSerializer < ActiveModel::Serializer
 end
 
 RSpec.describe ListSerializer, :type => :serializer do
-  subject { described_class }
   it { should have_one(:title) }
   it { should have_many(:items) }
   it { should have_many(:cats) }
@@ -71,7 +70,6 @@ class ShoeRackSerializer < ActiveModel::Serializer
 end
 
 RSpec.describe ShoeRackSerializer, :type => :serializer do
-  subject { described_class }
   it { should have_many(:shoes).as(:kicks) }
   it { should have_many(:shoes).as(:ones_and_twos) }
 end
@@ -94,7 +92,6 @@ class ShoppingCartSerializer < ActiveModel::Serializer
 end
 
 RSpec.describe ShoppingCartSerializer, :type => :serializer do
-  subject { described_class }
   it { should have_many(:items).serialized_with(ProductSerializer) }
   it { should have_many(:items).serialized_with(SoupCanSerializer) }
 end
@@ -116,7 +113,6 @@ class MenuSerializer < ActiveModel::Serializer
 end
 
 RSpec.describe MenuSerializer, :type => :serializer do
-  subject { described_class }
   it { should have_many(:entrees).as(:dishes).serialized_with(FoodSerializer) }
   it { should have_many(:entrees).serialized_with(FoodSerializer).as(:dishes) }
 end
