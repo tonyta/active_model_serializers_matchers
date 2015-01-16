@@ -3,6 +3,7 @@ Dir[Pathname(__FILE__).join('../**/*.rb')].each { |f| require f }
 module ActiveModelSerializersMatchers
   def self.included(base)
     base.subject { described_class }
+    metadata[:type] = :serializer
   end
 
   def have_many(association_root)
