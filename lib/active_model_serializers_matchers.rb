@@ -1,3 +1,4 @@
+require 'pathname'
 Dir[Pathname(__FILE__).join('../**/*.rb')].each { |f| require f }
 
 module ActiveModelSerializersMatchers
