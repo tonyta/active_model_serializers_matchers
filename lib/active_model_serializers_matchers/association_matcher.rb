@@ -26,7 +26,7 @@ module ActiveModelSerializersMatchers
     end
 
     def root_association
-      associations[root]
+      associations.select { |x| x.name == root }
     end
 
     def as(key)
