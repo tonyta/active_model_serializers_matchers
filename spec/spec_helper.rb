@@ -4,6 +4,7 @@ Coveralls.wear!
 require 'active_model_serializers'
 require 'active_model_serializers_matchers'
 
+require 'pathname'
 Dir[Pathname(__FILE__).join('../support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|

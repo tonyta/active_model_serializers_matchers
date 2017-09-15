@@ -10,7 +10,7 @@ module ActiveModelSerializersMatchers
 
       def pass?
         return false if matcher.root_association.nil?
-        matcher.root_association.superclass == association_type
+        matcher.root_association[:type] == type
       end
 
       def fail?
@@ -26,17 +26,6 @@ module ActiveModelSerializersMatchers
       end
 
       private
-
-      def association_type
-        case type
-        when :has_one
-          ActiveModel::Serializer::Associations::HasOne
-        when :has_many
-          ActiveModel::Serializer::Associations::HasMany
-        else
-          raise ArgumentError, "'#{type}' is an invalid association type."
-        end
-      end
 
       def association_string
         case type
