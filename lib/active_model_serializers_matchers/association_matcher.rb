@@ -47,7 +47,7 @@ module ActiveModelSerializersMatchers
     private
 
     def associations
-      actual._associations
+      actual._reflections
     end
   end
 end
