@@ -29,6 +29,8 @@ module ActiveModelSerializersMatchers
 
       def association_string
         case type
+        when :belongs_to
+          'belong to'
         when :has_one
           'have one'
         when :has_many
@@ -38,6 +40,8 @@ module ActiveModelSerializersMatchers
 
       def association_reflection
         case type
+        when :belongs_to
+          ActiveModel::Serializer::BelongsToReflection
         when :has_one
           ActiveModel::Serializer::HasOneReflection
         when :has_many
