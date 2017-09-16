@@ -10,7 +10,7 @@ module ActiveModelSerializersMatchers
 
       def pass?
         return false if matcher.root_association.nil?
-        matcher.root_association[:type] == type
+        matcher.root_association.class == association_reflection
       end
 
       def fail?
@@ -33,6 +33,15 @@ module ActiveModelSerializersMatchers
           'have one'
         when :has_many
           'have many'
+        end
+      end
+
+      def association_reflection
+        case type
+        when :has_one
+          ActiveModel::Serializer::HasOneReflection
+        when :has_many
+          ActiveModel::Serializer::HasManyReflection
         end
       end
     end
