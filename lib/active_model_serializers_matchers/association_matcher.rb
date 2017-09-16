@@ -27,7 +27,7 @@ module ActiveModelSerializersMatchers
 
     def root_association
       return nil unless associations.any? { |x| x.name == root }
-      associations.first { |x| x.name == root }
+      associations.select { |x| x.name == root }.first
     end
 
     def as(key)
