@@ -27,7 +27,7 @@ module ActiveModelSerializersMatchers
       private
 
       def actual_embed_key
-        matcher.root_association[:association_options][:embed_key]
+        matcher.root_association[:options][:embed_key]
       end
 
       def actual_embed_key_string

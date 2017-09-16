@@ -27,7 +27,7 @@ module ActiveModelSerializersMatchers
       private
 
       def actual_serializer
-        matcher.root_association[:association_options][:serializer]
+        matcher.root_association[:options][:serializer]
       end
 
       def actual_serializer_string
