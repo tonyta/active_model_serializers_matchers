@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
 
   spec.required_ruby_version = '>= 1.9.3'
 
-  spec.add_dependency "active_model_serializers", "0.10.2"
+  spec.add_dependency "active_model_serializers", "0.10.10"
   spec.add_dependency "rspec", "~> 3.0"
 
   spec.add_development_dependency "bundler", "~> 1.7"
